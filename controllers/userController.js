@@ -11,7 +11,7 @@ const userController = {
         .select('-__v')
         .then((users) =>
             !users
-                ? res.status(404).json({ message: 'No User Found with the ID'})
+                ? res.status(404).json({ message: 'No User Found with this ID!'})
                 : res.json(users)
         )
         .catch((err) => res.status(500).json(err));
@@ -28,15 +28,25 @@ const userController = {
         User.findOneAndDelete({ _id: req.params.userId })
         .then((users) => 
             !users
-                ? res.status(404).json({ message: 'No User found with that ID'})
+                ? res.status(404).json({ message: 'No User found with this ID!'})
                 : Thought.deleteMany({ _id: { $in: users.thoughts } })
                 )
                 .then(() => res.json({ message: 'User and Thoughts deleted!'}))
                 .catch((err) => res.status(500).json(err));
     },
-    
-}
-
-
+    updateUser (req, res) {
+        User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $set: req.body },
+            { runValidators: true, new: true }
+        )
+            .then((users) =>
+                !users
+                    ? res.status(404).json({ message: 'No User found with this ID!'})
+                    : res.json(users)
+            )
+            .catch((err) => res.status(500).json(err));
+    },
+};
 
 module.exports = userController;
