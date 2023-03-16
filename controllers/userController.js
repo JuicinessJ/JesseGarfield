@@ -1,5 +1,10 @@
 const { User, Thought } = require('../models');
 
+// Get All
+// Get One
+// Create Users
+// Delete Users
+// Update Users
 
 const userController = {
     getUsers (req, res) {
@@ -12,7 +17,7 @@ const userController = {
         .select('-__v')
         .then((users) =>
             !users
-                ? res.status(404).json({ message: 'No User Found with this ID!'})
+                ? res.status(404).json({ message: 'No User found with this ID!'})
                 : res.json(users)
         )
         .catch((err) => res.status(500).json(err));
@@ -41,12 +46,12 @@ const userController = {
             { $set: req.body },
             { runValidators: true, new: true }
         )
-            .then((users) =>
-                !users
-                    ? res.status(404).json({ message: 'No User found with this ID!'})
-                    : res.json(users)
-            )
-            .catch((err) => res.status(500).json(err));
+        .then((users) =>
+            !users
+                ? res.status(404).json({ message: 'No User found with this ID!'})
+                : res.json(users)
+        )
+        .catch((err) => res.status(500).json(err));
     },
 };
 
