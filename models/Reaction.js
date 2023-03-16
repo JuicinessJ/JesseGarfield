@@ -6,7 +6,7 @@ const reactionSchema = new Schema(
     {
         reactionId: {
             type: Schema.Types.ObjectId,
-            default: ObjectId
+            default: () => new Types.ObjectId(),
         },
         reactionBody: {
             type: String,
@@ -21,8 +21,6 @@ const reactionSchema = new Schema(
             type: Date,
             default: dayjs(new Date()).format('MM-DD-YY')
             // default: () => dayjs(new Date()).format('MM-DD-YY)
-            // Create a function inside the utils folder to format the timestamp
-            // A getter method to format timestamp on query, assuming need to use toJSON and put a getter inside.
         }
     },
     {
