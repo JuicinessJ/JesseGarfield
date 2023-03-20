@@ -68,6 +68,10 @@ const thoughtController = {
             .catch((err) => res.status(500).json(err));
     },
     createReaction (req, res) {
+        // Don't know if it should be like how I have createThought or if I should leave it like so but tweak it?
+        /* My understanding is it'll find the thought by using findOneAndUpdate looking for the id 
+        then it'll add a reaction to the set.
+        */
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $addToSet: { reactions: req.body } },
@@ -81,6 +85,7 @@ const thoughtController = {
         .catch((err) => res.status(500).json(err));
     },
     deleteReaction (req, res) {
+        // Don't know if it should be findOneAndDelete instead. Like how deleteThought has it
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $pull: { reactions: { reactionId: req.params.reactionId } } },
