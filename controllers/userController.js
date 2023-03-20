@@ -5,6 +5,8 @@ const { User, Thought } = require('../models');
 // Create Users
 // Delete Users
 // Update Users
+// Add Friend
+// Delete Friend
 
 const userController = {
     getUsers (req, res) {
@@ -57,7 +59,7 @@ const userController = {
     addFriend (req, res) {
         User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $addToSet: req.params.friendId },
+            { $addToSet: { friends: req.params.friendId } },
             { runValidators: true, new: true }
         )
         .then((users) =>
@@ -68,9 +70,9 @@ const userController = {
         .catch((err) => res.status(500).json(err));
     },
     deleteFriend (req, res) {
-        User.findOneAndRemove(
+        User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $pull: req.params.friendId },
+            { $pull: { friends: req.params.friendId } },
             { runValidators: true, new: true }
         )
         .then((users) =>
